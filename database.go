@@ -4,16 +4,28 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/joho/godotenv"
 )
 
-func GetConnection() *sql.DB {
-	err := godotenv.Load(".env")
+const projectDirName = "belajar-golang-database"
+
+func loadEnv() {
+	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
+	currentWorkDirectory, _ := os.Getwd()
+	rootPath := projectName.Find([]byte(currentWorkDirectory))
+
+	err := godotenv.Load(string(rootPath) + `/.env`)
+
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file")
 	}
+}
+
+func GetConnection() *sql.DB {
+	loadEnv()
 
 	host := os.Getenv("HOST")
 	userName := os.Getenv("USERN")

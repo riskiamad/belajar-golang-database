@@ -153,8 +153,8 @@ func TestExecSqlParameter(t *testing.T) {
 
 	ctx := context.Background()
 
-	username := "rizky"
-	password := "Rizky"
+	username := "user1"
+	password := "user1"
 
 	script := "INSERT INTO user(username, password) VALUES(?, ?);"
 	_, err := db.ExecContext(ctx, script, username, password)
